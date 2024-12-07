@@ -2,7 +2,7 @@
 
 ## Domain Proyek
 
-Polusi udara dianggap sebagai masalah lingkungan yang mempengaruhi kesehatan manusia, baik dalam jangka panjang maupun jangka pendek. Sekitar 7 juta kematian per tahun disebabkan oleh paparan polusi udara dan bencana alam atmosfer lainnya. Salah satu polutan udara yang paling berbahaya adalah partikel halus yang dikenal sebagai PM2.5, yaitu partikel dengan diameter kurang dari 2,5 mikrometer. PM2.5 dapat dengan mudah terhirup dan menembus jauh ke dalam saluran pernapasan, sehingga dapat menyebabkan berbagai penyakit pernapasan dan kardiovaskular, bahkan meningkatkan risiko kematian dini.
+Polusi udara dianggap sebagai masalah lingkungan yang mempengaruhi kesehatan manusia, baik dalam jangka panjang maupun jangka pendek. Sekitar 7 juta kematian per tahun disebabkan oleh paparan polusi udara dan bencana alam atmosfer lainnya (Alghieth et al., 2021). Salah satu polutan udara yang paling berbahaya adalah partikel halus yang dikenal sebagai PM2.5, yaitu partikel dengan diameter kurang dari 2,5 mikrometer. PM2.5 dapat dengan mudah terhirup dan menembus jauh ke dalam saluran pernapasan, sehingga dapat menyebabkan berbagai penyakit pernapasan dan kardiovaskular, bahkan meningkatkan risiko kematian dini.
 
 Kota-kota besar di seluruh dunia seperti Beijing menghadapi tingkat polusi udara yang sangat tinggi akibat urbanisasi, industrialisasi, dan aktivitas transportasi. Oleh karena itu, kemampuan untuk memprediksi konsentrasi PM2.5 sangat penting untuk memberikan peringatan dini kepada masyarakat, membantu para pembuat kebijakan dalam menerapkan langkah-langkah mitigasi, dan meningkatkan kesadaran masyarakat akan bahaya polusi udara.
 
@@ -23,7 +23,7 @@ Dataset yang digunakan dalam proyek ini mencatat data harian dan cuaca dari Kedu
 
 **Referensi**
 
-[Air Pollution Forecasting Using Deep Learning](https://www.researchgate.net/publication/357043273_Air_Pollution_Forecasting_Using_Deep_Learning) 
+[Alghieth, M., Alawaji, R., Saleh, S.H. & Alharbi, S., 2021. Air Pollution Forecasting Using Deep Learning. International Journal of Online and Biomedical Engineering (iJOE), 17(14), pp. 50–64.](https://www.researchgate.net/publication/357043273_Air_Pollution_Forecasting_Using_Deep_Learning) 
 
 ## Business Understanding
 
@@ -31,21 +31,22 @@ Polusi udara, khususnya partikel PM2.5, telah menjadi masalah global dengan damp
 
 ### Problem Statements
 
-- Apakah model LSTM dan GRU cocok pada dataset polusi udara?
+- Bagaimana hasil prediksi dapat digunakan untuk membantu pemerintah dan masyarakat dalam mengambil keputusan yang tepat untuk mengurangi paparan polusi udara?
 - Berapa tingkat konsentrasi PM2.5 di waktu tertentu?
 
 ### Goals
 
-- Menilai error yang dihasilkan dari model LSTM dan GRU.
+- Menghasilkan informasi yang dapat digunakan untuk mendukung kebijakan pengurangan polusi udara di wilayah yang terkena dampak
 - Membuat Model yang memprediksi tingkat konsentrasi PM2.5.
 
-    ### Solution statements
-    - Membangun Model Prediksi Time Series dengan LSTM dan GRU.
+### Solution Statements
+- Membangun Model Prediksi Time Series dengan LSTM dan GRU.
 
-        Menggunakan dua algoritma model deep learning yaitu Long Short-Term Memory (LSTM) dan Gated Recurrent Unit (GRU). Keduanya dirancang untuk menangani data time series dengan dependensi jangka panjang. LSTM dan GRU akan digunakan untuk mempelajari pola historis dalam data polusi udara dan cuaca untuk memprediksi tingkat PM2.5 pada jam mendatang. Keunggulan dari LSTM dan GRU adalah kemampuannya untuk menangkap pola temporal yang kompleks serta mampu mengatasi masalah vanishing gradient.
-    - Mean Squared Error (MSE) dan Root Mean Squared Error (RMSE)
+  Menggunakan dua algoritma model deep learning yaitu Long Short-Term Memory (LSTM) dan Gated Recurrent Unit (GRU). Keduanya dirancang untuk menangani data time series dengan dependensi jangka panjang. LSTM dan GRU akan digunakan untuk mempelajari pola historis dalam data polusi udara dan cuaca untuk memprediksi tingkat PM2.5 pada jam mendatang. Keunggulan dari LSTM dan GRU adalah kemampuannya untuk menangkap pola temporal yang kompleks serta mampu mengatasi masalah vanishing gradient.
 
-      MSE mengukur seberapa besar kesalahan prediksi model dibandingkan dengan nilai aktual sedangkan RMSE memberikan gambaran yang lebih intuitif mengenai seberapa jauh prediksi model dari nilai sebenarnya dengan memberikan penalti lebih besar pada kesalahan yang lebih besar.
+- Evaluasi dengan Mean Squared Error (MSE) dan Root Mean Squared Error (RMSE)
+
+  MSE mengukur seberapa besar kesalahan prediksi model dibandingkan dengan nilai aktual sedangkan RMSE memberikan gambaran yang lebih intuitif mengenai seberapa jauh prediksi model dari nilai sebenarnya dengan memberikan penalti lebih besar pada kesalahan yang lebih besar.
 
 ## Data Understanding
 Data ini dikumpulkan di US Embassy, Beijing, yang mencatat kualitas udara dan parameter cuaca terkait. Dataset yang digunakan berjumlah 43,800 untuk data latih dan 346 untuk data uji, yang mencakup periode dari awal tahun 2010 bulan januari hingga akhir tahun 2014 bulan desember. Data dicatat pada interval waktu setiap jam, memberikan informasi terperinci tentang kondisi polusi udara dan cuaca setiap jam. Setiap baris data menggambarkan kondisi polusi dan cuaca pada waktu tertentu (tahun, bulan, hari, jam) dan mencakup berbagai variabel yang relevan. 
@@ -93,18 +94,25 @@ Link Dataset : [Air Pollution Forecasting](https://www.kaggle.com/datasets/rupak
 
 ## Data Preparation
 
-- Encode Data
+- Data Transform
 
-  Pada tahap ini saya menerapkan label encoding pada data wnd_dir bertipe data object/kategorikal. Encode data adalah proses mengubah data ke dalam format yang dapat dipahami oleh komputer, terutama model machine learning. Encoding biasanya dilakukan pada data yang tidak berbentuk numerik, seperti data kategorikal atau teks, agar dapat diolah oleh algoritma yang hanya menerima input berupa angka/numerik.
+  - Encoding Data
+
+    Pada tahap ini saya menerapkan label encoding pada data wnd_dir bertipe data object/kategorikal. Encode data adalah proses mengubah data ke dalam format yang dapat dipahami oleh komputer, terutama model machine learning. Encoding biasanya dilakukan pada data yang tidak berbentuk numerik, seperti data kategorikal atau teks, agar dapat diolah oleh algoritma yang hanya menerima input berupa angka/numerik.
   
-- Normalisasi data
+  - Normalisasi data
 
-  Pada tahap ini saya menggunakan Min-Max Scalar. Min-Max Scaler adalah metode normalisasi yang digunakan untuk mengubah nilai fitur dalam dataset ke rentang tertentu, antara 0 dan 1. Teknik ini memastikan bahwa semua fitur memiliki skala yang sama, tanpa mengubah distribusi datanya. Normalisasi data membantu algoritma machine learning, terutama neural networks seperti LSTM dan GRU, untuk bekerja lebih efisien dengan skala data yang seragam. Ini mengurangi risiko bias terhadap fitur dengan nilai yang lebih besar.
+    Pada tahap ini saya menggunakan Min-Max Scalar. Min-Max Scaler adalah metode normalisasi yang digunakan untuk mengubah nilai fitur dalam dataset ke rentang tertentu, antara 0 dan 1. Teknik ini memastikan bahwa semua fitur memiliki skala yang sama, tanpa mengubah distribusi datanya. Normalisasi data membantu algoritma machine learning, terutama neural networks seperti LSTM dan GRU, untuk bekerja lebih efisien dengan skala data yang seragam. Ini mengurangi risiko bias terhadap fitur dengan nilai yang lebih besar.
 
-- Transform input dan target data
+  - Ubah datetime
 
-  Pada tahap ini menjadi input (X) dan target (y) berdasarkan jumlah langkah waktu (n_past) dan jumlah prediksi di masa depan (n_future).
-Proses ini memastikan bahwa data siap untuk pelatihan dan evaluasi dengan model seperti LSTM atau GRU.
+    Pada tahap ini mengubah data date menjadi datetime menjadi bentuk datetime agar dapat dikenali sebagai data tanggal dan waktu. Setelah itu mengatur kolom date sebagai index untuk mempermudah analisis berbasis waktu.
+
+- Split Data
+
+  - Transform input dan target data
+
+    Pada tahap ini menjadi input (X) dan target (y) berdasarkan jumlah langkah waktu (n_past) dan jumlah prediksi di masa depan (n_future). lalu membentuk data untuk pelatihan dan pengujian. Proses ini memastikan bahwa data siap untuk pelatihan dan evaluasi dengan model seperti LSTM atau GRU.
 
 
 ## Modeling
@@ -193,10 +201,10 @@ Tahapan MSE:
 -  Setelah semua selisih dikuadratkan, MSE mengambil rata-rata dari kesalahan kuadrat tersebut untuk memberikan satu nilai yang menggambarkan performa model secara keseluruhan.
 
 Hasil Evaluasi
-  - GRU Train MSE: 0.0086
-  - GRU Test MSE: 0.0099
-  - LSTM Train MSE: 0.0069
-  - LSTM Test MSE: 0.0076
+  - GRU Train MSE: 0.0091
+  - GRU Test MSE: 0.0125
+  - LSTM Train MSE: 0.0068
+  - LSTM Test MSE: 0.0077
 
 **RMSE (Root Mean Squared Error)**
 
@@ -210,10 +218,10 @@ Tahapan RMSE:
 -  Setelah mendapatkan nilai MSE, RMSE dihitung dengan mengambil akar kuadrat dari MSE. Hal ini memberikan ukuran yang lebih intuitif karena RMSE berada pada satuan yang sama dengan data aslinya.
 
 Hasil Evaluasi
-  - GRU Train RMSE: 0.0928
-  - GRU Test RMSE: 0.0994
-  - LSTM Train RMSE: 0.0833
-  - LSTM Test RMSE: 0.0869
+  - GRU Train RMSE: 0.0955
+  - GRU Test RMSE: 0.1118
+  - LSTM Train RMSE: 0.0829
+  - LSTM Test RMSE: 0.0881
 
 **Analisis Hasil Evaluasi**
 -  MSE pada LSTM lebih rendah daripada GRU baik pada data pelatihan maupun pengujian. Ini menunjukkan bahwa LSTM lebih akurat dalam memprediksi nilai konsentrasi polusi udara pada kedua set data.
@@ -226,12 +234,24 @@ Hasil Evaluasi
 
 LSTM :
 
-![image](https://github.com/user-attachments/assets/27182a4c-5ce0-4d61-94fa-310efc459d94)
+![image](https://github.com/user-attachments/assets/5ae48236-166e-4a3a-8c4b-262fe85c8f10)
 
 GRU :
 
-![image](https://github.com/user-attachments/assets/893bde8c-53bd-4c0f-9106-fc6dbc6ef349)
+![image](https://github.com/user-attachments/assets/ed7aa907-a4fe-4260-9e83-864111871d36)
 
 **Kesimpulan**
 
-Berdasarkan nilai MSE dan RMSE, model LSTM menunjukkan kinerja yang lebih baik dibandingkan GRU dalam memprediksi konsentrasi polusi udara. LSTM memberikan hasil yang lebih rendah dalam hal kesalahan kuadrat rata-rata dan akar kuadrat dari kesalahan tersebut, yang menunjukkan bahwa model ini lebih efektif dalam menangani dependensi jangka panjang dan lebih akurat dalam memprediksi data time series.
+- Problem Statement
+
+  Hasil prediksi dapat digunakan untuk memberikan informasi yang lebih baik kepada pemerintah dan masyarakat mengenai waktu dan lokasi dengan tingkat polusi udara yang tinggi. Dengan informasi ini, kebijakan untuk mengurangi paparan polusi seperti penutupan jalan, pembatasan aktivitas industri, atau pemberian peringatan dini kepada masyarakat dapat diterapkan. Model prediksi ini juga dapat digunakan untuk memperkirakan konsentrasi PM2.5 pada waktu tertentu, memberikan proyeksi yang lebih tepat tentang kualitas udara berdasarkan data historis dan kondisi cuaca saat itu.
+
+- Goals
+  
+  Proyek ini memberikan data yang dapat digunakan oleh pengambil kebijakan untuk merencanakan tindakan pengurangan polusi dan meminimalkan dampaknya terhadap kesehatan masyarakat serta membangun model machine learning yang dapat memberikan prediksi yang akurat mengenai tingkat polusi udara PM2.5 berdasarkan data historis dan cuaca yang ada.
+
+- Solution Statement
+  
+  Dengan membangun model prediksi menggunakan LSTM dan GRU dan mengevaluasinya dengan metrik MSE dan RMSE, proyek ini dapat memberikan prediksi yang lebih akurat mengenai tingkat polusi udara PM2.5 di masa depan, yang sangat berguna dalam pengambilan keputusan oleh pemerintah dan masyarakat untuk mengurangi dampak polusi udara. Evaluasi dengan MSE dan RMSE memastikan bahwa model yang dibangun mampu memberikan prediksi yang lebih dekat dengan nilai aktual dan lebih sensitif terhadap kesalahan besar. Hasil evaluasi juga menunjukkan model LSTM memiliki kinerja lebih baik dibandingkan GRU, hal ini dikarenakan LSTM lebih efektif dalam menangani ketergantungan jangka panjang pada data time series.
+
+
