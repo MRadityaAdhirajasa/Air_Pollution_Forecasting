@@ -86,11 +86,12 @@ Link Dataset : [Air Pollution Forecasting](https://www.kaggle.com/datasets/rupak
 
   ![image](https://github.com/user-attachments/assets/f01f9d31-64c5-479d-b30b-9f62afc1a7cd)
 
-  Dengan menampilkan boxplot pada data seperti yang dilakukan pada kode di atas digunakan untuk menganalisis distribusi dan karakteristik data dari berbagai fitur (kolom) numerik dalam dataset. Boxplot dapat membantu untuk memahami distribusi dan variabilitas data serta mendekteksi adanya outlier.
+  Dengan menampilkan boxplot pada data seperti yang dilakukan pada kode di atas digunakan untuk menganalisis distribusi dan karakteristik data dari berbagai fitur (kolom) numerik dalam dataset. Boxplot dapat membantu untuk memahami distribusi dan variabilitas data serta mendekteksi adanya outlier. Berdasarkan visualiasi tersebut dapat dilihat bahwa pollution, wnd_spd, snow, rain memiliki nilai yang tidak wajar, terutama pada pollution bisa melebihi 900. Namun, pada kasus kali ini data tersebut akan tetap digunakan karena ada kemungkinan memang pada waktu tersebut konsentrasi polusi sedang naik drastis.
+
 
   ![image](https://github.com/user-attachments/assets/eac83840-9cfc-4a90-957f-f892306e69ea)
 
-  Menampilkan histogram seperti diatas dapat membantu untuk memahami jumlah data dari distribusi nya secara jelas dari setiap kolom.
+  Menampilkan histogram seperti diatas dapat membantu untuk memahami jumlah data dari distribusi nya secara jelas dari setiap kolom. Berdasarkan visualiasi tersebut menunjukkan bahwa pada pollution umumnya konsentrasi polusi dibawah 50. Kondisi titik embun atau dew cenderung konsisten di kisaran tertentu, kemungkinan menunjukkan lingkungan dengan kelembapan relatif yang stabil. Temperatur dan tekanan menunjukkan perubahan signifikan, mungkin mencerminkan variasi suhu siang dan malam atau musim tertentu. Angin didominasi dari arah NW atau barat laut. Umumnya kecepatan angin tergolong rendah namun ada kemungkinan kecil kecepatan angin menjadi ekstrem
 
 ## Data Preparation
 
@@ -98,15 +99,15 @@ Link Dataset : [Air Pollution Forecasting](https://www.kaggle.com/datasets/rupak
 
   - Encoding Data
 
-    Pada tahap ini saya menerapkan label encoding pada data wnd_dir bertipe data object/kategorikal. Encode data adalah proses mengubah data ke dalam format yang dapat dipahami oleh komputer, terutama model machine learning. Encoding biasanya dilakukan pada data yang tidak berbentuk numerik, seperti data kategorikal atau teks, agar dapat diolah oleh algoritma yang hanya menerima input berupa angka/numerik.
-  
-  - Normalisasi data
-
-    Pada tahap ini saya menggunakan Min-Max Scalar. Min-Max Scaler adalah metode normalisasi yang digunakan untuk mengubah nilai fitur dalam dataset ke rentang tertentu, antara 0 dan 1. Teknik ini memastikan bahwa semua fitur memiliki skala yang sama, tanpa mengubah distribusi datanya. Normalisasi data membantu algoritma machine learning, terutama neural networks seperti LSTM dan GRU, untuk bekerja lebih efisien dengan skala data yang seragam. Ini mengurangi risiko bias terhadap fitur dengan nilai yang lebih besar.
+    Tahap ini menerapkan label encoding pada data wnd_dir bertipe data object/kategorikal. Encode data adalah proses mengubah data ke dalam format yang dapat dipahami oleh komputer, terutama model machine learning. Encoding biasanya dilakukan pada data yang tidak berbentuk numerik, seperti data kategorikal atau teks, agar dapat diolah oleh algoritma yang hanya menerima input berupa angka/numerik.
 
   - Ubah datetime
 
-    Pada tahap ini mengubah data date menjadi datetime menjadi bentuk datetime agar dapat dikenali sebagai data tanggal dan waktu. Setelah itu mengatur kolom date sebagai index untuk mempermudah analisis berbasis waktu.
+    Tahap ini mengubah data date menjadi datetime menjadi bentuk datetime agar dapat dikenali sebagai data tanggal dan waktu. Setelah itu mengatur kolom date sebagai index untuk mempermudah analisis berbasis waktu.
+  
+  - Normalisasi data
+
+    Tahap ini menggunakan Min-Max Scalar. Min-Max Scaler adalah metode normalisasi yang digunakan untuk mengubah nilai fitur dalam dataset ke rentang tertentu, antara 0 dan 1. Teknik ini memastikan bahwa semua fitur memiliki skala yang sama, tanpa mengubah distribusi datanya. Normalisasi data membantu algoritma machine learning, terutama neural networks seperti LSTM dan GRU, untuk bekerja lebih efisien dengan skala data yang seragam. Ini mengurangi risiko bias terhadap fitur dengan nilai yang lebih besar.
 
 - Split Data
 
@@ -174,15 +175,15 @@ GRU (Gated Recurrent Unit) adalah jenis Recurrent Neural Network (RNN) yang dira
 
 **Penerapan Callback dan Compile Model**
 
-Callback adalah fungsi atau objek yang dipanggil secara otomatis selama proses pelatihan model pada titik tertentu. Callback digunakan untuk meningkatkan efisiensi pelatihan, mencegah overfitting, dan memastikan model yang dihasilkan adalah yang terbaik. Disini saya menggunakan 2 callback yaitu:
+Callback adalah fungsi atau objek yang dipanggil secara otomatis selama proses pelatihan model pada titik tertentu. Callback digunakan untuk meningkatkan efisiensi pelatihan, mencegah overfitting, dan memastikan model yang dihasilkan adalah yang terbaik. Dengan menggunakan 2 callback yaitu:
 -  EarlyStopping yang berfungsi untuk menghentikan pelatihan ketika tidak ada peningkatan dalam performa model untuk menghindari overfitting dan pemborosan waktu komputasi.
 -  ModelCheckpoint yang menyimpan model terbaik yang ditemukan selama pelatihan untuk memastikan bahwa model yang diekspor adalah model dengan performa terbaik berdasarkan val_loss.
 
-Setelah persiapan selesai langkah yang harus dilakukan adalah melatih model, saya menggunakan 30 epoch, 10% validation, dan 32 batch size.
+Setelah persiapan selesai langkah yang harus dilakukan adalah melatih model, dengan menggunakan 30 epoch, 10% validation, dan 32 batch size.
 
 **Model Terbaik**
 
-Berdasarkan proyek ini, saya mendapat bahwa LSTM lebih baik daripada GRU pada dataset prediksi polusi udara. Meskipun GRU lebih cepat dalam pelatihan dan lebih efisien secara komputasi, LSTM lebih baik dalam menangani data time series dengan ketergantungan jangka panjang yang lebih rumit. Oleh karena itu, pada kasus ini, dimana data menunjukkan ketergantungan temporal yang kuat, LSTM menghasilkan performa yang lebih baik dengan loss, MSE, dan RMSE yang lebih kecil, karena kemampuannya untuk mempertahankan dan mengelola informasi dalam jangka panjang dengan lebih baik daripada GRU. 
+Berdasarkan proyek ini, LSTM lebih baik daripada GRU pada dataset prediksi polusi udara. Meskipun GRU lebih cepat dalam pelatihan dan lebih efisien secara komputasi, LSTM lebih baik dalam menangani data time series dengan ketergantungan jangka panjang yang lebih rumit. Oleh karena itu, pada kasus ini, dimana data menunjukkan ketergantungan temporal yang kuat, LSTM menghasilkan performa yang lebih baik dengan loss, MSE, dan RMSE yang lebih kecil, karena kemampuannya untuk mempertahankan dan mengelola informasi dalam jangka panjang dengan lebih baik daripada GRU. 
 
 
 ## Evaluation
